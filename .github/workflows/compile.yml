@@ -21,6 +21,7 @@ jobs:
         run: |
           quarto add quarto-ext/fontawesome --no-prompt
           quarto render index.qmd
+          mkdir build
           cp *.html build
 
       - name: Setup Pages
