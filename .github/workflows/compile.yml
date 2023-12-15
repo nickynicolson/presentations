@@ -16,8 +16,11 @@ jobs:
     steps:
       - uses: quarto-dev/quarto-actions/setup@v2
 
-      - name: add FA support
-        run: quarto add quarto-ext/fontawesome
+      - name: Check quarto installation
+        run: quarto check
+
+      - name: Add FA support
+        run: quarto install quarto-ext/fontawesome
         
       - name: dummy quarto compile
         run: |
