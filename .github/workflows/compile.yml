@@ -14,7 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: dummy quarto compile
-        run: echo "hello from quarto CI" >> index.md
+        run: |
+          mkdir docs
+          echo "hello from quarto CI" >> docs/index.md
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
@@ -23,7 +25,7 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           # location of the coverage artifacts
-          path: "./index.md"
+          path: "docs"
 
   deploy-coverage:
     runs-on: ubuntu-latest
