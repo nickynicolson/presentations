@@ -27,11 +27,8 @@ jobs:
       - name: Add FA support and compile
         run: |
           quarto add quarto-ext/fontawesome --no-prompt
-          cd build
           quarto render ../docs/index.qmd
-          ls -l
-          cd ..
-          ls -l
+          cp docs/*.html build
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
