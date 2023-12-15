@@ -18,14 +18,17 @@ jobs:
 
       - name: Check quarto installation
         run: quarto check
-
-      - name: Add FA support
-        run: quarto install quarto-ext/fontawesome
         
       - name: dummy quarto compile
         run: |
-          mkdir docs
-          echo "hello from quarto CI" >> docs/index.md
+          mkdir build docs 
+          echo "{{< fa thumbs-up >}} hello from quarto CI" >> docs/index.qmd
+
+      - name: Add FA support and compile
+        run: |
+          cd docs
+          quarto install quarto-ext/fontawesome
+          quarto render hello.qmd --output-dir ../build
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
@@ -34,7 +37,7 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           # location of the coverage artifacts
-          path: "docs"
+          path: "build"
 
   deploy-coverage:
     runs-on: ubuntu-latest
