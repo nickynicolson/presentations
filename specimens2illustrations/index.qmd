@@ -1,0 +1,103 @@
+---
+title: "Monographs to multi-modal ML datasets"
+date: December 2023
+author: 
+    - "Nicky Nicolson"
+    - "Eren Karabey"
+    - "Eve Lucas"
+format: 
+    revealjs:
+        logo: ../images/kew.png
+        css: styles.css
+        footer: <https://kew.org>
+
+---
+Monographs include rich information on species in a defined group:
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+- Taxonomy
+- Species descriptions
+- Illustrations
+- Maps
+- Specimens
+- Trait matrices
+
+:::
+
+::: {.column width="40%"}
+![](images/fieldwork.png)
+:::
+
+::::
+Can we repackage these so that they can be used for training ML models?
+---
+
+## Case study: Solanum
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+- Series of (7) monographs published Open Access (CC-BY) in PhytoKeys
+- Publications available as structured (XML format) data
+- Kew Solanum specimens are comprehensively digitised / imaged (one of the mass digitisation pilots), available on [GBIF](https://gbif.org)
+
+:::
+
+::: {.column width="40%"}
+![](images/phytokeys-monograph-list.png)
+:::
+
+::::
+
+---
+
+## Caption & image segmentation (EK)
+
+- Each species treatment has an illustration image, composed of multiple parts
+- The illustration caption indicates the specimen used as reference for each part
+
+---
+
+```{mermaid}
+graph TD
+    doi2xml["make xml For each DOI, <br/>get XML format data<br/>Input: doi:10.3897/phytokeys.22.4041 <br/>Output: downloads/10.3897/phytokeys.22.4041.xml"]
+    xmlproc["make txt For each XML file, <br/>extract relevant data and <br/>write to text delimited file<br/>Input: downloads/10.3897/phytokeys.22.4041.xml<br/>Output: data/10.3897/phytokeys.22.4041.txt"]
+    doi2xml--"Initial text processing and image download"-->xmlproc
+    txtproc["make captions For each txt file, <br/>parse caption into components and <br/>write to text delimited file<br/>Input: data/10.3897/phytokeys.22.4041.txt<br/>Output: data/10.3897/phytokeys.22.4041-captions.txt"]
+    seg["make segment For each caption set,<br/>read illustration image and segment"]
+    xmlproc--"Caption text processing and image segmentation"-->txtproc-->seg
+```
+
+---
+
+## Specimen reconciliation (NN)
+
+- Monograph contains specimen references eg "Nee 1234"
+- Need service to convert these specimen references to specimen metadata (and image)
+- [GBIF data download of all Solanum specimens](https://doi.org/10.15468/dl.bn5a3u) is mobilised in a [datasette](https://datasette.io) instance, hosted in a huggingface space
+- The upload process parses the `recordedBy` value to extract the familyname of the first collector. A new column is created using this and the `recordNumber`
+- The datasette is configured to act as a [reconciliation endpoint](https://github.com/drkane/datasette-reconcile)
+
+---
+
+
+## Links
+
+- {{< fa brands github >}} Project home: [github.com/KewBridge](https://github.com/KewBridge) 
+- Discussion board: [github.com/orgs/KewBridge/discussions](https://github.com/orgs/KewBridge/discussions)  
+- Code repository: [github.com/orgs/KewBridge/specimens2illustrations](https://github.com/orgs/KewBridge/specimens2illustrations) 
+
+- Datasette of Solanum specimens:
+    - [nickynicolson-gbifocc-datasette.hf.space/gbifocc](https://nickynicolson-gbifocc-datasette.hf.space/gbifocc)
+    - [reconciliation endpoint](https://nickynicolson-gbifocc-datasette.hf.space/gbifocc/gbifocc/-/reconcile) 
+
+---
+
+## Contact
+
+- Email: [n.nicolson@kew.org](mailto:n.nicolson@kew.org) 
+- Github: [@nickynicolson](https://github.com/nickynicolson), [@ErenKarabey](https://github.com/ErenKarabey) 
