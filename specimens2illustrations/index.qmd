@@ -3,6 +3,7 @@ title: "Monographs to multi-modal ML datasets"
 date: December 2023
 author: 
     - "Nicky Nicolson"
+    - "Pausali Sengupta"
     - "Eren Karabey"
     - "Eve Lucas"
 format: 
@@ -55,12 +56,23 @@ Can we repackage these so that they can be used for training ML models?
 
 ---
 
+## Project setup, data access (NN, PS)
+
+- Dependency management with `make`
+- Code runs in continuous integration in github actions
+- Using DOIs as input, XML format article data is downloaded and parsed for species treatments
+- Descriptive paragraphs, illustration captions and image files are downloaded
+
+---
+
 ## Caption & image segmentation (EK)
 
 - Each species treatment has an illustration image, composed of multiple parts
 - The illustration caption indicates the specimen used as reference for each part
 
 ---
+
+## specimens2illustrations process
 
 ```{mermaid}
 graph TD
