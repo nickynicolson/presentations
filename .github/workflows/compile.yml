@@ -23,6 +23,7 @@ jobs:
         run: |
           mkdir build docs 
           echo "{{< fa thumbs-up >}} hello from quarto CI" >> docs/index.qmd
+          cat docs/index.qmd
 
       - name: Add FA support and compile
         run: |
