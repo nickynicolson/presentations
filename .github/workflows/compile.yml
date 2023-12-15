@@ -12,7 +12,13 @@ jobs:
   compile:
     name: compile
     runs-on: ubuntu-latest
+    
     steps:
+      - uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: add FA support
+        run: quarto add quarto-ext/fontawesome
+        
       - name: dummy quarto compile
         run: |
           mkdir docs
